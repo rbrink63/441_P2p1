@@ -5,6 +5,7 @@
 #include "token.h"
 
 string scanner::getLex() { return lex; }
+string scanner::getUpperLex() { return upper_lex; } 
 int scanner::getCol() { return col; }
 int scanner::getLine() { return line; }
 int scanner::getLexCat() { return lexCat; }
@@ -30,7 +31,7 @@ token scanner::getNextToken(StringTable & strTbl) {
 		for (int i = 0; i < TOK_PERIOD; i++)
 			if (RES_WORDS[i] == nlex)
 				tok.tokId = i;
-		if (tok.tokId != -1) {
+		if (tok.tokId == -1) {
 			tok.tokId = TOK_IDENT;
 			tok.sref = strTbl.insert(nlex);
 		}
@@ -226,6 +227,9 @@ int scanner::scanNextLex(int & lexLine, int & lexCol, int & lexcat) {
 		}
 	}
 	catLex();
+	upper_lex = lex;
+	for (unsigned int i = 0; i < upper_lex.length(); i++)
+	    upper_lex[i] = toupper(upper_lex[i]);
 	lexcat = lexCat;
 	return state;
 }

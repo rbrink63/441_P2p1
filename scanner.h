@@ -10,6 +10,7 @@ public:
 	token getNextToken(StringTable & t);
 	int scanNextLex(int & lexLine, int & lexCol, int & lexCat);
 	string getLex();
+	string getUpperLex();
 	string getErrMsg();
 	int getCol();
 	int getLine();
@@ -21,6 +22,7 @@ public:
 private:
 	ifstream f;
 	string lex = "";
+	string upper_lex = "";
 	string errMsg = "Scanner not initialized\n";
 	int line = 1, col = 0;
 	bool isErr = true;

@@ -7,6 +7,7 @@ void parser::parse(string filename){
 
     StringTable t;
     token x;
+    string next;
     
     x = my_scanner.getNextToken(t);
     my_token_stack.push(x);
@@ -17,7 +18,13 @@ void parser::parse(string filename){
 	std::cout << std::endl;
     
 	//next print the current input token from the scanner
-	std::cout << "PARSE: inTok=" << x.tokId << " " << x.sref->data << std::endl;	
+	if (x.sref == nullptr) next = my_scanner.getUpperLex();
+	else next = x.sref->data;
+
+	std::cout << "PARSE: inTok=" << x.tokId << " " << next << std::endl;	
+
+	//then print the stack
+	my_token_stack.print();
 	
 
 	x = my_scanner.getNextToken(t);		
