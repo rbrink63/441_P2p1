@@ -1,0 +1,72 @@
+
+PARSE: inTok=32 PROGRAM
+Stack print: n=1
+200 <PGM>
+
+PARSE: inTok=32 PROGRAM
+Stack print: n=7
+ 32 PROGRAM
+ -3 _IDENT=[]
+ 64 ;
+201 <DECLARATIONS>
+202 <SUBPGM_DCLS>
+203 <CMPD_STMT>
+ 50 .
+
+PARSE: inTok=-3 _IDENT=[P1]
+Stack print: n=6
+ -3 _IDENT=[]
+ 64 ;
+201 <DECLARATIONS>
+202 <SUBPGM_DCLS>
+203 <CMPD_STMT>
+ 50 .
+
+PARSE: inTok=64 ;
+Stack print: n=5
+ 64 ;
+201 <DECLARATIONS>
+202 <SUBPGM_DCLS>
+203 <CMPD_STMT>
+ 50 .
+
+PARSE: inTok=2 BEGIN
+Stack print: n=4
+201 <DECLARATIONS>
+202 <SUBPGM_DCLS>
+203 <CMPD_STMT>
+ 50 .
+
+PARSE: inTok=2 BEGIN
+Stack print: n=3
+202 <SUBPGM_DCLS>
+203 <CMPD_STMT>
+ 50 .
+
+PARSE: inTok=2 BEGIN
+Stack print: n=2
+203 <CMPD_STMT>
+ 50 .
+
+PARSE: inTok=2 BEGIN
+Stack print: n=4
+  2 BEGIN
+213 <OPT_STMTS>
+ 11 END
+ 50 .
+
+PARSE: inTok=11 END
+Stack print: n=3
+213 <OPT_STMTS>
+ 11 END
+ 50 .
+
+PARSE: inTok=11 END
+Stack print: n=2
+ 11 END
+ 50 .
+
+PARSE: inTok=50 .
+Stack print: n=1
+ 50 .
+Parser: success!
