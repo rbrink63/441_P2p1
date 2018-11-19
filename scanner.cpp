@@ -10,6 +10,8 @@ int scanner::getLine() { return line; }
 int scanner::getLexCat() { return lexCat; }
 string scanner::getErrMsg() { return errMsg; }
 
+bool scanner::getErr(){ return isErr; }
+bool scanner::getEOF(){ return isEOF; }
 token scanner::getNextToken(StringTable & strTbl) {
 	token tok;
 	tok.sref = NULL;
@@ -28,7 +30,7 @@ token scanner::getNextToken(StringTable & strTbl) {
 		for (int i = 0; i < TOK_PERIOD; i++)
 			if (RES_WORDS[i] == nlex)
 				tok.tokId = i;
-		if (tok.tokId == -1) {
+		if (tok.tokId != -1) {
 			tok.tokId = TOK_IDENT;
 			tok.sref = strTbl.insert(nlex);
 		}

@@ -12,7 +12,6 @@ int main(int argc, char* argv[]) {
 		string fn = argv[1];
 		p.parse(fn);
 	}
-	system("pause");
 
 	return 0;
 }

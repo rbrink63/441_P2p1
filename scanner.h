@@ -14,6 +14,8 @@ public:
 	int getCol();
 	int getLine();
 	int getLexCat();
+	bool getErr();
+	bool getEOF();
 	string getFState(int x);
 	string getCCat(int x);
 private:
