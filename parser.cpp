@@ -14,7 +14,7 @@ void parser::parse(string filename){
     my_token_stack.push(Start);
 
     c = my_scanner.getNextToken(t);
-    while (!my_scanner.getErr() && !my_scanner.getEOF() && !my_token_stack.empty()){
+    while (!parser_err && !my_scanner.getEOF() && !my_token_stack.empty()){
 	//Dr. Joiner requested specific output for debugging/grading
 	//first print a blank line
 	std::cout << std::endl;
@@ -39,7 +39,9 @@ void parser::parse(string filename){
 	    }
 	    else{
 		//ERROR
-		std::cout << "There was an error with this terminal" << std::endl;
+		parser_err = true;
+		std::cout << "Parse Error: input Token found, but Top Token expected" << std::endl;
+		std::cout << "Top Token = " << getTokenString(x) << "\tInput Token = " << getTokenString(c) << std::endl;
 	    }
 	}
 
@@ -47,30 +49,49 @@ void parser::parse(string filename){
 	    //x is a Non Terminal
 	    int prod_index = chooseProd(x,c);
 
-	    if(prod_index > -1){
+	    if (!foundLHS){
+		//ERROR		     
+		std::cout << "Parse Error: no productions for non-terminal" << std::endl;
+		std::cout << "Top Token = " << getTokenString(x) << "\tInput Token = " << getTokenString(c) << std::endl;
+	    }
+	    else if(prod_index > -1){
 		pushRHS(prod_index);
 	    }
 
 	    else{
-		     
-		std::cout << "No production found" << std::endl;
+		//ERROR		     
+		std::cout << "Parse Error: no production selected for Top Token" << std::endl;
+		std::cout << "Top Token = " << getTokenString(x) << "\tInput Token = " << getTokenString(c) << std::endl;
 	    }
-	    
 
 	}
-
-	if (!my_scanner.getErr() && my_scanner.getEOF() && my_token_stack.empty()) std::cout << "Parser: success!" << std::endl;
+	
+	if (my_scanner.getErr()){
+	    //ERROR
+	    parser_err = true;
+	    std::cout << "Parse Error: scan error reported" << std::endl;
+	    std::cout << "Top Token = " << getTokenString(x) << "\tInput Token = " << getTokenString(c) << std::endl;
+	}
     }
 
-
-    
-
+    if (my_scanner.getEOF() && !my_token_stack.empty()){
+        //ERROR
+        std::cout << "Parse Error: unexpected end of source" << std::endl;
+        std::cout << "Top Token = " << getTokenString(x) << "\tInput Token = " << getTokenString(c) << std::endl;
+    }
+    else if (my_token_stack.empty() && !my_scanner.getEOF()){
+        //ERROR
+        std::cout << "Parse Error: unexpected tokens in source past end of program" << std::endl;
+        std::cout << "Top Token = " << getTokenString(x) << "\tInput Token = " << getTokenString(c) << std::endl;
+    }
+    else if (!parser_err && my_scanner.getEOF() && my_token_stack.empty()) std::cout << "Parser: success!" << std::endl;
 }
 
 int parser::chooseProd(token topToken, token inputToken){
     bool prod_found = false;
     int i = -1;
-    
+    foundLHS = true; 
+
     while(!prod_found && i < GR_NUM_PRODS){
 	i++;	
 	if (GR_PROD[i][GR_LHS_NDX] == topToken.tokId){
@@ -87,7 +108,10 @@ int parser::chooseProd(token topToken, token inputToken){
 	}
     }
 
-    if(!prod_found) i = -1;
+    if(!prod_found){
+	if (i == -1) foundLHS = false;
+	i = -1;
+    }
     return i;
 }
 

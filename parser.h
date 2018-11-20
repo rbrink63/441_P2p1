@@ -19,4 +19,5 @@ private:
     StringTable my_string_table;
     tokStack my_token_stack;
     bool parser_err = false;
+    bool foundLHS = true;
 };
