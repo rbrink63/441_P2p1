@@ -69,3 +69,4 @@ Stack print: n=2
 PARSE: inTok=50 .
 Stack print: n=1
  50 .
+Parser: success!

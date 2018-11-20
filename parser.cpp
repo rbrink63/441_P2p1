@@ -59,10 +59,7 @@ void parser::parse(string filename){
 
 	}
 
-	//this was used in testing to make sure I could 
-	//iterate through the whole input file
-	//c = my_scanner.getNextToken(t);
-	
+	if (!my_scanner.getErr() && my_scanner.getEOF() && my_token_stack.empty()) std::cout << "Parser: success!" << std::endl;
     }
 
 
